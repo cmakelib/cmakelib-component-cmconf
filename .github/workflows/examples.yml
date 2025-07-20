@@ -1,0 +1,90 @@
+name: Examples
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+env:
+  CMLIB_VERSION: 1.1.0
+  
+jobs:
+  examples-linux:
+    strategy:
+      matrix:
+        image: [
+          "test_ubuntu:2404"
+          ]
+        example: [
+          "example/",
+        ]
+
+    runs-on: ubuntu-latest
+    container:
+        image: ghcr.io/cmakelib/${{ matrix.image }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run example - ${{ matrix.example }}
+        run: |
+            git config --global --add safe.directory "$(pwd)"
+            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
+            git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
+            export CMLIB_DIR=$(pwd)/cmakelib
+            cd ${{ matrix.example }}
+            cmake -P config/CMCONF_EXAMPLEConfig.cmake
+            cmake -P CMakeLists.txt
+            mkdir _build && cd _build
+            cmake ..
+
+  examples-windows:
+    strategy:
+      matrix:
+        example: [
+          "example",
+        ]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run example - ${{ matrix.example }}
+        run: |
+            git config --global --add safe.directory "$(pwd)"
+            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
+            git clone --branch "v$env:CMLIB_VERSION" https://github.com/cmakelib/cmakelib.git
+            $env:CMLIB_DIR = "$(pwd)/cmakelib"
+            cd ${{ matrix.example }}
+            cmake -P config/CMCONF_EXAMPLEConfig.cmake
+            cmake -P CMakeLists.txt
+            mkdir build -ErrorAction SilentlyContinue
+            cd build
+            cmake ..
+
+  examples-macos:
+    strategy:
+      matrix:
+        example: [
+          "example/",
+        ]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run example - ${{ matrix.example }}
+        run: |
+            git config --global --add safe.directory "$(pwd)"
+            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
+            git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
+            export CMLIB_DIR=$(pwd)/cmakelib
+            cd ${{ matrix.example }}
+            cmake -P config/CMCONF_EXAMPLEConfig.cmake
+            cmake -P CMakeLists.txt
+            mkdir _build && cd _build
+            cmake ..

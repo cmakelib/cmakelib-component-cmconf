@@ -1,0 +1,8 @@
+#FIND_PACKAGE(CMLIB REQUIRED COMPONENTS CMCONF)
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../CMCONF.cmake")
+
+CMCONF_INIT_SYSTEM("TEST")
+
+CMCONF_SET("VARIABLE_A" "test_value_a_duplicate")
+CMCONF_SET("VARIABLE_B" "test_value_b_duplicate")
+CMCONF_SET("VARIABLE_C" "test_value_c_duplicate")

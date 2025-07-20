@@ -1,0 +1,17 @@
+## Main
+#
+# Test CMCONF_GET error when configuration is not installed
+#
+
+IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
+    CMAKE_MINIMUM_REQUIRED(VERSION 3.22)
+    PROJECT(CMCONF_CONFIG_NOT_INSTALLED_TEST)
+ENDIF()
+
+FIND_PACKAGE(CMLIB REQUIRED)
+
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../TEST.cmake")
+
+TEST_RUN_AND_CHECK_OUTPUT("test_config"
+    FATAL_ERROR_MESSAGE "CMCONF\\\\[NONEXISTENT_SYSTEM\\\\] - Cannot find configuration for system.*NONEXISTENT_SYSTEM.*Is the configuration installed"
+)

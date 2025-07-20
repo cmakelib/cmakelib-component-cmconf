@@ -1,0 +1,39 @@
+## Main
+#
+# Test CMCONF_GET case insensitive variable names
+#
+
+IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
+    CMAKE_MINIMUM_REQUIRED(VERSION 3.22)
+    PROJECT(CMCONF_GET_CASE_INSENSITIVE_TEST)
+ENDIF()
+
+FIND_PACKAGE(CMLIB REQUIRED)
+
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../TEST.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../cache_var.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../../CMCONF.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../test_cmconf_helpers.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../config_templates/config_template.cmake")
+
+TEST_CMCONF_CHECK_AND_INSTALL_CONFIG("${CMCONF_TEST_CASE_SENSITIVE_CONFIG_FILE}" "TEST_CASE_SENSITIVE")
+
+CMCONF_INIT_SYSTEM(TEST_CASE_SENSITIVE)
+
+CMCONF_GET(Variable_Mixed_Case)    # Mixed case (as defined in config)
+CMCONF_GET(VARIABLE_MIXED_CASE)    # All uppercase
+CMCONF_GET(variable_mixed_case)    # All lowercase
+
+TEST_VAR_DEFINED(Variable_Mixed_Case)
+TEST_VAR_DEFINED(VARIABLE_MIXED_CASE)
+TEST_VAR_DEFINED(variable_mixed_case)
+
+TEST_VAR_EQUALS_LITERAL(Variable_Mixed_Case "mixed_case_value")
+TEST_VAR_EQUALS_LITERAL(VARIABLE_MIXED_CASE "mixed_case_value")
+TEST_VAR_EQUALS_LITERAL(variable_mixed_case "mixed_case_value")
+
+TEST_VAR_EQUAL(Variable_Mixed_Case VARIABLE_MIXED_CASE)
+TEST_VAR_EQUAL(Variable_Mixed_Case variable_mixed_case)
+TEST_VAR_EQUAL(VARIABLE_MIXED_CASE variable_mixed_case)
+
+TEST_CMCONF_UNINSTALL_CONFIG("${CMCONF_TEST_CASE_SENSITIVE_CONFIG_FILE}" "TEST_CASE_SENSITIVE")

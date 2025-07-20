@@ -1,0 +1,32 @@
+## Configuration Template Paths
+#
+# Defines paths to all test configuration templates and verifies they exist
+#
+
+# Define paths to configuration templates
+SET(CMCONF_TEST_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/CMCONF_TESTConfig.cmake")
+SET(CMCONF_TEST_SYSTEM_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/CMCONF_TEST_SYSTEMConfig.cmake")
+SET(CMCONF_TEST_WRONG_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/CMCONF_TEST_WRONGConfig.cmake")
+SET(CMCONF_TEST_CASE_SENSITIVE_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/CMCONF_TEST_CASE_SENSITIVEConfig.cmake")
+SET(CMCONF_TEST_DUPLICATE_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/duplicate_config/CMCONF_TESTConfig.cmake")
+
+# Verify all configuration templates exist
+IF(NOT EXISTS "${CMCONF_TEST_CONFIG_FILE}")
+    MESSAGE(FATAL_ERROR "Configuration template does not exist: ${CMCONF_TEST_CONFIG_FILE}")
+ENDIF()
+
+IF(NOT EXISTS "${CMCONF_TEST_SYSTEM_CONFIG_FILE}")
+    MESSAGE(FATAL_ERROR "Configuration template does not exist: ${CMCONF_TEST_SYSTEM_CONFIG_FILE}")
+ENDIF()
+
+IF(NOT EXISTS "${CMCONF_TEST_WRONG_CONFIG_FILE}")
+    MESSAGE(FATAL_ERROR "Configuration template does not exist: ${CMCONF_TEST_WRONG_CONFIG_FILE}")
+ENDIF()
+
+IF(NOT EXISTS "${CMCONF_TEST_CASE_SENSITIVE_CONFIG_FILE}")
+    MESSAGE(FATAL_ERROR "Configuration template does not exist: ${CMCONF_TEST_CASE_SENSITIVE_CONFIG_FILE}")
+ENDIF()
+
+IF(NOT EXISTS "${CMCONF_TEST_DUPLICATE_CONFIG_FILE}")
+    MESSAGE(FATAL_ERROR "Configuration template does not exist: ${CMCONF_TEST_DUPLICATE_CONFIG_FILE}")
+ENDIF()

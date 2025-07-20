@@ -1,0 +1,17 @@
+## Main
+#
+# Test CMCONF_INIT_SYSTEM error when trying to change system name
+#
+
+IF(NOT DEFINED CMAKE_SCRIPT_MODE_FILE)
+    CMAKE_MINIMUM_REQUIRED(VERSION 3.22)
+    PROJECT(CMCONF_SYSTEM_NAME_CHANGE_ATTEMPT_TEST)
+ENDIF()
+
+FIND_PACKAGE(CMLIB REQUIRED)
+
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/../../../TEST.cmake")
+
+TEST_RUN_AND_CHECK_OUTPUT("test_config"
+    FATAL_ERROR_MESSAGE "CMCONF\\\\[FIRST_SYSTEM\\\\] - System name already set\\..*Cannot change system name.*from 'FIRST_SYSTEM' to 'SECOND_SYSTEM'"
+)

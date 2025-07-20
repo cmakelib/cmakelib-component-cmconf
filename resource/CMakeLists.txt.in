@@ -1,0 +1,15 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 3.22 FATAL_ERROR)
+PROJECT(CMCONF_INSTALL_PROJECT)
+
+FIND_PACKAGE(CMLIB COMPONENTS CMCONF REQUIRED)
+
+# It needs to be set after the FIND_PACKAGE to override the default value.
+SET(CMCONF_CMAKE_PROJECT_ALLOW_INSTALL ON
+    CACHE INTERNAL
+    "Set by resource/CMakeLists.txt.in. Do not set manually. Controls whetnever CMake project is allowed to install the configuration."
+)
+
+_CMCONF_GET_PACKAGE_CONFIG_FILENAME("@TO_REPLACE_CMCONF_SYSTEM_NAME@" package_filename)
+
+FILE(TO_CMAKE_PATH "${CMAKE_CURRENT_LIST_DIR}/${package_filename}" package_path)
+INCLUDE("${package_path}")
