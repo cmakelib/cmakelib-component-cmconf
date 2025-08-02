@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  CMLIB_VERSION: 1.2.0
+  CMLIB_VERSION: 1.2.1
   
 jobs:
   test_linux:
