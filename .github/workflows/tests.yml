@@ -41,37 +41,35 @@ jobs:
             git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
             export CMLIB_DIR=$(pwd)/cmakelib
             export CMLIB_COMPONENT_LOCAL_BASE_PATH=$(pwd)/../
-            ln -s ./ cmakelib-component-cmconf
             ls -lsa
             cd test/ && cmake .
  
-#  test_macos:
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          submodules: recursive
-#      - name: Run tests
-#        run: |
-#            git config --global --add safe.directory "$(pwd)"
-#            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
-#            git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
-#            export CMLIB_DIR=$(pwd)/cmakelib
-#            export CMLIB_COMPONENT_LOCAL_BASE_PATH=$(pwd)
-#            ln -s ./ cmakelib-component-cmconf
-#            cd test/ && cmake .
+  test_macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run tests
+        run: |
+            git config --global --add safe.directory "$(pwd)"
+            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
+            git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
+            export CMLIB_DIR=$(pwd)/cmakelib
+            export CMLIB_COMPONENT_LOCAL_BASE_PATH=$(pwd)/../
+            cd test/ && cmake .
 
-#  test_windows:
-#    runs-on: windows-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#        with:
-#          submodules: recursive
-#      - name: Run tests
-#        run: |
-#            git config --global --add safe.directory "$(pwd)"
-#            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
-#            git clone --branch "v$Env:CMLIB_VERSION" https://github.com/cmakelib/cmakelib.git
-#            $Env:CMLIB_DIR=$(Join-Path -Path $(Get-Location).Path -ChildPath "cmakelib")
-#            $Env:CMLIB_COMPONENT_LOCAL_BASE_PATH=$(Join-Path -Path $(Get-Location).Path -ChildPath "cmakelib")
-#            cd test/ && cmake .
+  test_windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run tests
+        run: |
+            git config --global --add safe.directory "$(pwd)"
+            git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
+            git clone --branch "v$Env:CMLIB_VERSION" https://github.com/cmakelib/cmakelib.git
+            $Env:CMLIB_DIR=$(Join-Path -Path $(Get-Location).Path -ChildPath "cmakelib")
+            $Env:CMLIB_COMPONENT_LOCAL_BASE_PATH=$(Join-Path -Path $(Get-Location).Path -ChildPath "../")
+            cd test/ && cmake .
