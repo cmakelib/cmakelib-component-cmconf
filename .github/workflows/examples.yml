@@ -36,8 +36,10 @@ jobs:
             git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
             git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
             export CMLIB_DIR=$(pwd)/cmakelib
+            export CMLIB_COMPONENT_LOCAL_BASE_PATH=$(pwd)
+            ln -s ./ cmakelib-component-cmconf
             cd ${{ matrix.example }}
-            cmake -P config/CMCONF_EXAMPLEConfig.cmake
+            cmake -DCMCONF_INSTALL_AS_SYMLINK=ON -P config/CMCONF_EXAMPLEConfig.cmake
             cmake -P CMakeLists.txt
             mkdir _build && cd _build
             cmake ..
@@ -59,8 +61,10 @@ jobs:
             git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
             git clone --branch "v$env:CMLIB_VERSION" https://github.com/cmakelib/cmakelib.git
             $env:CMLIB_DIR = "$(pwd)/cmakelib"
+            $env:CMLIB_COMPONENT_LOCAL_BASE_PATH = "$(pwd)"
+            New-Item -ItemType SymbolicLink -Path "cmakelib-component-cmconf" -Target "./"
             cd ${{ matrix.example }}
-            cmake -P config/CMCONF_EXAMPLEConfig.cmake
+            cmake -DCMCONF_INSTALL_AS_SYMLINK=ON -P config/CMCONF_EXAMPLEConfig.cmake
             cmake -P CMakeLists.txt
             mkdir build -ErrorAction SilentlyContinue
             cd build
@@ -83,8 +87,10 @@ jobs:
             git remote set-url origin "${{ github.server_url }}/${{ github.repository }}"
             git clone --branch "v${CMLIB_VERSION}" https://github.com/cmakelib/cmakelib.git
             export CMLIB_DIR=$(pwd)/cmakelib
+            export CMLIB_COMPONENT_LOCAL_BASE_PATH=$(pwd)
+            ln -s ./ cmakelib-component-cmconf
             cd ${{ matrix.example }}
-            cmake -P config/CMCONF_EXAMPLEConfig.cmake
+            cmake -DCMCONF_INSTALL_AS_SYMLINK=ON -P config/CMCONF_EXAMPLEConfig.cmake
             cmake -P CMakeLists.txt
             mkdir _build && cd _build
             cmake ..
