@@ -411,12 +411,30 @@ FUNCTION(_CMCONF_UNINSTALL system_name)
 
     SET(package_registry_path)
     IF(WIN32)
-        SET(userprofile "$ENV{USERPROFILE}")
-        IF(NOT userprofile)
-            _CMCONF_MESSAGE(FATAL_ERROR "Cannot uninstall configuration. USERPROFILE environment variable is not set.")
+        SET(winreg_path "HKCU\\Software\\Kitware\\CMake\\Packages\\${package_name}")
+        FIND_PROGRAM(reg_exe reg)
+        IF(NOT reg_exe)
+            _CMCONF_MESSAGE(FATAL_ERROR "Cannot uninstall configuration. 'reg' executable not found.")
         ENDIF()
-        FILE(TO_CMAKE_PATH "${userprofile}" userprofile)
-        SET(package_registry_path "${userprofile}/.cmake/packages/${package_name}")
+        EXECUTE_PROCESS(
+            COMMAND "${reg_exe}" query "${winreg_path}"
+            RESULT_VARIABLE winreg_exist
+            ERROR_VARIABLE errout
+            OUTPUT_VARIABLE stdout
+        )
+        IF(NOT winreg_exist EQUAL 0)
+            _CMCONF_MESSAGE(WARNING "No need to uninstall configuration for ${system_name}. It is not installed.")  
+            RETURN()
+        ENDIF()
+        EXECUTE_PROCESS(
+            COMMAND "${reg_exe}" delete "${winreg_path}" /f
+            RESULT_VARIABLE result_var
+            ERROR_VARIABLE errout
+            OUTPUT_VARIABLE stdout
+        )
+        IF(NOT result_var EQUAL 0)
+            _CMCONF_MESSAGE(FATAL_ERROR "Failed to uninstall configuration for system ${system_name}: ${errout}\n${stdout}")
+        ENDIF()
     ELSEIF(UNIX)
         SET(userhome "$ENV{HOME}")
         IF(NOT userhome)
@@ -424,15 +442,17 @@ FUNCTION(_CMCONF_UNINSTALL system_name)
         ENDIF()
         FILE(TO_CMAKE_PATH "${userhome}" userhome)
         SET(package_registry_path "${userhome}/.cmake/packages/${package_name}")
+
+        FIND_PACKAGE(${package_name} QUIET)
+        IF(NOT ${package_name}_FOUND)
+            _CMCONF_MESSAGE(WARNING "No need to uninstall configuration for ${system_name}. It is not installed.")
+            RETURN()
+        ENDIF()
+        FILE(REMOVE_RECURSE "${package_registry_path}")
+    ELSE()
+        _CMCONF_MESSAGE(FATAL_ERROR "Cannot uninstall configuration. Unsupported platform.")
     ENDIF()
 
-    FIND_PACKAGE(${package_name} QUIET)
-    IF(NOT ${package_name}_FOUND)
-        _CMCONF_MESSAGE(WARNING "No need to uninstall configuration for ${system_name}. It is not installed.")
-        RETURN()
-    ENDIF()
-
-    FILE(REMOVE_RECURSE "${package_registry_path}")
     _CMCONF_MESSAGE(STATUS "Uninstalled configuration for system ${system_name} succeeded.")
 ENDFUNCTION()
 
