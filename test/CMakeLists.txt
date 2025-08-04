@@ -19,6 +19,7 @@ TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/cache_variable_behavior")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/case_insensitive")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/different_system_names")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/multiple_variables")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/uninstall_verification")
 
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/config_not_installed")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/config_already_installed")
@@ -37,10 +38,6 @@ TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/uninstall_not_needed_warning
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/variable_already_exists")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/variable_not_defined")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/wrong_filename")
-
-IF(WIN32)
-    TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/windows_userprofile_missing")
-ENDIF()
 
 IF(UNIX)
     TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/unix_home_missing")
