@@ -97,6 +97,10 @@ Every function has comprehensive documentation written as part of the function d
 
 Context documentation is located at [CMCONF.cmake]
 
+## Tests
+
+For test go to the [test/] and read the attached [test/README.md].
+
 ## License
 
 Project is licensed under [MIT](LICENSE)
