@@ -235,6 +235,9 @@ ENDFUNCTION()
 # package name constructed as CMCONF_PACKAGE_NAME_PREFIX + SYSTEM_NAME.
 # FIND_PACKAGE is called every time CMCONF_GET is called.
 #
+# The variable can be specified by environment variable or by -D cmdline option as CMake cache variable.
+# The variable name is constructed as SYSTEM_NAME_VARIABLE_NAME (both uppercase).
+#
 # Restrictions:
 # - System name must be set before calling this function
 # - Cannot be called after CMCONF_SET has been used in the same session.
@@ -273,7 +276,11 @@ FUNCTION(CMCONF_GET var_name)
             _CMCONF_MESSAGE(FATAL_ERROR "Variable '${var_name}' is not defined in configuration for system '${CMCONF_SYSTEM_NAME}'.")
         ENDIF()
     ENDIF()
-    SET(${var_name} "${${actual_var_name}}" PARENT_SCOPE)
+    IF(DEFINED ENV{${actual_var_name}})
+        SET(${var_name} "$ENV{${actual_var_name}}" PARENT_SCOPE)
+    ELSE()
+        SET(${var_name} "${${actual_var_name}}" PARENT_SCOPE)
+    ENDIF()
 ENDFUNCTION()
 
 
