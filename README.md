@@ -98,7 +98,8 @@ cmake -DCMCONF_INSTALL_AS_SYMLINK=ON -P CMCONF_EXAMPLEConfig.cmake
 cmake -DCMCONF_UNINSTALL=ON -P CMCONF_EXAMPLEConfig.cmake
 
 # Allow system name override
-cmake -DCMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED=ON -DCMCONF_SYSTEM_NAME=MY_EXAMPLE <CMakeProjectPath>
+# Allow system name override (e.g., in CMake project root directory)
+cmake -DCMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED=ON -DCMCONF_SYSTEM_NAME=MY_EXAMPLE .
 ```
 
 ## Function list
