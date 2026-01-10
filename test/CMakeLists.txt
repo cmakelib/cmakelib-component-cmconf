@@ -21,6 +21,8 @@ TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/different_system_names")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/env_variable_fallback")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/env_variable_override")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/multiple_variables")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/system_name_override_allowed")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/system_name_reinit_same")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/pass/uninstall_verification")
 
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/config_not_installed")

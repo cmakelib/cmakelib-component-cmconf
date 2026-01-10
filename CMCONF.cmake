@@ -111,6 +111,11 @@ INCLUDE_GUARD(GLOBAL)
 
 FIND_PACKAGE(CMLIB REQUIRED)
 
+SET(CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED OFF
+    CACHE INTERNAL
+    "If set to ON the system name can be overriden from cmdline. If OFF the system name cannot be changed once set."
+)
+
 SET(CMCONF_SYSTEM_NAME ""
     CACHE STRING
     "Name of the system for which the configuration is intended."
@@ -168,23 +173,26 @@ SET(CMCONF_INSTALL_CMAKELISTS_TEMPLATE_FILE "${CMCONF_SCRIPT_DIR}/resource/CMake
 #
 # Sets the system name that will be used to group configuration variables
 # and identify the configuration package in the CMake user package registry.
-# The system name can only be set once per configuration session.
 #
 # If CMCONF_INSTALL_AS_SYMLINK is ON, this function will automatically install
 # the configuration to the CMake user package registry as a symlink, making it
 # available for other projects to find via FIND_PACKAGE.
 #
 # The system name is normalized to uppercase and validated to contain only
-# [a-zA-Z_] characters. Once set, attempting to change it will result in
-# a fatal error.
+# [a-zA-Z_] characters.
+#
+# System Name Override Behavior:
+# - By default (CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED=OFF), attempting to change
+#   the system name after it has been set will result in a fatal error.
+# - If CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED is set to ON, the system name can be
+#   changed. A warning message is emitted when the system name is overridden.
+# - Re-initializing with the same system name is allowed and proceeds silently.
 #
 # Installation Process (when CMCONF_INSTALL_AS_SYMLINK=ON):
 # - Validates that no conflicting package exists in a different location
 # - In script mode: validates filename matches CMCONF_<SYSTEM_NAME>Config.cmake pattern
 # - Registers the package using EXPORT(PACKAGE) command
 # - Installation is performed only once per session
-#
-# System name cannot be changed once is set.
 #
 # <function>(
 #		<system_name>		# Name of the system. Will be converted to uppercase,
@@ -195,7 +203,11 @@ FUNCTION(CMCONF_INIT_SYSTEM system_name)
     _CMCONF_CHECK_AND_NORMALIZE_SYSTEM_NAME("${system_name}" system_name_upper)
     IF(CMCONF_SYSTEM_NAME)
         IF(NOT CMCONF_SYSTEM_NAME STREQUAL "${system_name_upper}")
-            _CMCONF_MESSAGE(FATAL_ERROR "System name already set. Cannot change system name from '${CMCONF_SYSTEM_NAME}' to '${system_name_upper}'")
+            IF(NOT CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED)
+                _CMCONF_MESSAGE(FATAL_ERROR "System name already set. Cannot change system name from '${CMCONF_SYSTEM_NAME}' to '${system_name_upper}'")
+            ELSE()
+                _CMCONF_MESSAGE(WARNING "Overriding system name from '${CMCONF_SYSTEM_NAME}' to '${system_name_upper}'")
+            ENDIF()
         ENDIF()
     ENDIF()
     SET_PROPERTY(CACHE CMCONF_SYSTEM_NAME PROPERTY VALUE "${system_name_upper}")
