@@ -31,6 +31,7 @@ TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/env_variable_config_required
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/get_after_set")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/install_from_cmake_project")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/install_project_execution_failure")
+TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/install_with_override_allowed")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/invalid_system_name")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/invalid_variable_name")
 TEST_RUN("${CMAKE_CURRENT_LIST_DIR}/test_cases/fail/package_exists_different_location")
