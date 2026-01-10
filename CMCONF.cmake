@@ -428,6 +428,10 @@ FUNCTION(_CMCONF_UNINSTALL system_name)
         _CMCONF_MESSAGE(FATAL_ERROR "Cannot uninstall configuration. Uninstalation can be invoked only as 'cmake -DCMCONF_UNINSTALL=ON -P <CONFIG_FILE>.'")
     ENDIF()
 
+    IF(CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED)
+        _CMCONF_MESSAGE(FATAL_ERROR "Cannot uninstall configuration. CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED is not allowed during CMCONF config uninstallation.")
+    ENDIF()
+
     SET(package_registry_path)
     IF(WIN32)
         SET(winreg_path "HKCU\\Software\\Kitware\\CMake\\Packages\\${package_name}")
