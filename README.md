@@ -87,7 +87,7 @@ Examples can be found at [example] directory.
 |----------|---------|-------------|
 | `CMCONF_INSTALL_AS_SYMLINK` | OFF | Triggers configuration installation to CMake user package registry |
 | `CMCONF_UNINSTALL` | OFF | Triggers configuration uninstallation from CMake user package registry |
-| `CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED` | OFF | Allows changing system name after it has been set (emits warning). Intended to use from command line with standard CMake workflow. When used during installation of `CMCONF` configuration error occure. |
+| `CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED` | OFF | When set during a normal CMake project configure, allows changing `CMCONF_SYSTEM_NAME` after it has been set (emits warning). When used during installation via config script (e.g., running with `-P` or with `CMCONF_INSTALL_AS_SYMLINK`/`CMCONF_UNINSTALL`), a configuration error occurs. |
 | `CMCONF_SYSTEM_NAME` | "" | Name of the system (usually set via `CMCONF_INIT_SYSTEM`, but can be preset if `CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED` is ON) |
 
 ```bash
@@ -97,7 +97,6 @@ cmake -DCMCONF_INSTALL_AS_SYMLINK=ON -P CMCONF_EXAMPLEConfig.cmake
 # Uninstall configuration
 cmake -DCMCONF_UNINSTALL=ON -P CMCONF_EXAMPLEConfig.cmake
 
-# Allow system name override
 # Allow system name override (e.g., in CMake project root directory)
 cmake -DCMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED=ON -DCMCONF_SYSTEM_NAME=MY_EXAMPLE .
 ```
