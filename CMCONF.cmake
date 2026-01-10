@@ -112,7 +112,7 @@ INCLUDE_GUARD(GLOBAL)
 FIND_PACKAGE(CMLIB REQUIRED)
 
 SET(CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED OFF
-    CACHE INTERNAL
+    CACHE BOOL
     "If set to ON the system name can be overriden from cmdline. If OFF the system name cannot be changed once set."
 )
 
@@ -502,7 +502,7 @@ FUNCTION(_CMCONF_RUN_INSTALL_PROJECT system_name)
     CONFIGURE_FILE("${cmakelist_template}" "${cmakelist_path}" @ONLY)
 
     EXECUTE_PROCESS(
-        COMMAND "${CMAKE_COMMAND}" -DCMCONF_INSTALL_AS_SYMLINK=ON .
+        COMMAND "${CMAKE_COMMAND}" -DCMCONF_INSTALL_AS_SYMLINK=ON -DCMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED=${CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED} .
         WORKING_DIRECTORY "${script_dir}"
         RESULT_VARIABLE result_var
         ERROR_VARIABLE errout

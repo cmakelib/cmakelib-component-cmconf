@@ -81,6 +81,26 @@ CMCONF_GET("PAHOMQTT_URI")
 
 Examples can be found at [example] directory.
 
+## Configuration Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CMCONF_INSTALL_AS_SYMLINK` | OFF | Triggers configuration installation to CMake user package registry |
+| `CMCONF_UNINSTALL` | OFF | Triggers configuration uninstallation from CMake user package registry |
+| `CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED` | OFF | Allows changing system name after it has been set (emits warning). Intended to use from command line with standard CMake workflow. When used during installation of `CMCONF` configuration error occure. |
+| `CMCONF_SYSTEM_NAME` | "" | Name of the system (usually set via `CMCONF_INIT_SYSTEM`, but can be preset if `CMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED` is ON) |
+
+```bash
+# Install configuration
+cmake -DCMCONF_INSTALL_AS_SYMLINK=ON -P CMCONF_EXAMPLEConfig.cmake
+
+# Uninstall configuration
+cmake -DCMCONF_UNINSTALL=ON -P CMCONF_EXAMPLEConfig.cmake
+
+# Allow system name override
+cmake -DCMCONF_SYSTEM_NAME_OVERRIDE_ALLOWED=ON -DCMCONF_SYSTEM_NAME=MY_EXAMPLE <CMakeProjectPath>
+```
+
 ## Function list
 
 Each entry in list represents one feature for CMake.
